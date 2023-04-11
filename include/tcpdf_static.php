@@ -1823,7 +1823,7 @@ class TCPDF_STATIC {
 		// encode query params in URL to get right response form the server
 		$url = self::encodeUrlQuery($url);
 		curl_setopt($crs, CURLOPT_URL, $url);
-		curl_setopt($crs, CURLOPT_NOBODY, true);
+        curl_setopt($crs, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($crs, CURLOPT_FAILONERROR, true);
 		if ((ini_get('open_basedir') == '') && (!ini_get('safe_mode'))) {
 			curl_setopt($crs, CURLOPT_FOLLOWLOCATION, true);
@@ -1855,7 +1855,7 @@ class TCPDF_STATIC {
 		$urlData = parse_url($url);
 		if (isset($urlData['query']) && $urlData['query']) {
 			$urlQueryData = array();
-			parse_str(urldecode($urlData['query']), $urlQueryData);
+			parse_str($urlData['query'], $urlQueryData);
 			$port = isset($urlData['port']) ? ':'.$urlData['port'] : '';
 			$updatedUrl = $urlData['scheme'].'://'.$urlData['host'].$port.$urlData['path'].'?'.http_build_query($urlQueryData);
 		} else {
